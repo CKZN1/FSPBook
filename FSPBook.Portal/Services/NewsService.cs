@@ -10,6 +10,7 @@ namespace FSPBook.Portal.Services
 {
     public class NewsService : INewsService
     {
+        private const string APITokenReplace = "**APITOKEN**";
         private readonly IHttpClientFactory _httpClientFactory;
         public IConfiguration Configuration { get; set; }
 
@@ -22,11 +23,14 @@ namespace FSPBook.Portal.Services
         public async Task<List<Datum>> GetNews()
         { 
             var url = Configuration.GetSection("NewsAPIUrl").Value;
-            if(string.IsNullOrEmpty(url)) 
+            var token = Configuration.GetSection("NewsAPIToken").Value;
+            if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(token)) 
                 return new List<Datum>();
 
+            var urltoken = url.Replace(APITokenReplace, token);
+
             var httpclient = _httpClientFactory.CreateClient();
-            var response = await httpclient.GetAsync(url);
+            var response = await httpclient.GetAsync(urltoken);
 
             var newsResponse = await response.Content.ReadAsStringAsync();
             var json = JsonSerializer.Deserialize<NewsAPIResponse>(newsResponse);
