@@ -15,7 +15,10 @@
                     @Html.DisplayFor(modelItem => item.Content)
                 </td>
                 <td>
-                    <a href="/Profile?authorId=@item.AuthorId">@item.Author.FullName</a>
+                    <a asp-page="./Profile"
+                       asp-route-authorId="@item.AuthorId">
+                        @item.Author.FullName
+                    </a>
                 </td>
             </tr>
         }
@@ -27,13 +30,32 @@
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
-<a asp-page="./Index"
-   asp-route-pageIndex="@(Model.PageIndex - 1)"
-   class="btn btn-primary @prevDisabled">
-    Previous
-</a>
-<a asp-page="./Index"
-   asp-route-pageIndex="@(Model.PageIndex + 1)"
-   class="btn btn-primary @nextDisabled">
-    Next
-</a>
+@if ((string)ViewContext.RouteData.Values["page"] == "/Profile")
+{
+    <a asp-page="./Profile"
+       asp-route-pageIndex="@(Model.PageIndex - 1)"
+       asp-route-authorId="@Model.ElementAt(0).AuthorId"
+       class="btn btn-primary @prevDisabled">
+        Previous
+    </a>
+    <a asp-page="./Profile"
+       asp-route-pageIndex="@(Model.PageIndex + 1)"
+       asp-route-authorId="@Model.ElementAt(0).AuthorId"
+       class="btn btn-primary @nextDisabled">
+        Next
+    </a>
+}
+else
+{
+    <a asp-page="./Index"
+       asp-route-pageIndex="@(Model.PageIndex - 1)"
+       class="btn btn-primary @prevDisabled">
+        Previous
+    </a>
+    <a asp-page="./Index"
+       asp-route-pageIndex="@(Model.PageIndex + 1)"
+       class="btn btn-primary @nextDisabled">
+        Next
+    </a>
+}
+
