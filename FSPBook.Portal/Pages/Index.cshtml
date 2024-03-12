@@ -1,0 +1,43 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+</div>
+
+<div class="container-fluid dashboard">
+    
+    <div class="row">
+        <div class="col-md-6">
+            <partial name="PostFeed" model="@Model.Posts" />
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    News
+                </div>
+                <div class="card-body">
+                    <table class="table">
+
+                        <tbody>
+                            @foreach (var item in Model.NewsItems)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@item.url">@Html.DisplayFor(modelItem => item.title)</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
