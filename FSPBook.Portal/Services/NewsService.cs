@@ -33,6 +33,7 @@ namespace FSPBook.Portal.Services
 
             if (json.data == null)
                 return new List<Datum>();
+
             return json.data.ToList();
         }
     }
